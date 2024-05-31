@@ -9,6 +9,19 @@ import UIKit
 
 class MainPage: UIViewController {
     
+    let shoes: [String] = ["Air Max 97", "React Pestro", "KD13 EP", "Air Max 200 SE"]
+    
+    let productCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumInteritemSpacing = 10 // Space between items
+        layout.minimumLineSpacing = 10
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.showsVerticalScrollIndicator = false
+        cv.register(ProductCollectionViewCell.self, forCellWithReuseIdentifier: ProductCollectionViewCell.identifier)
+        return cv
+    }()
+    
     let saleCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -52,8 +65,8 @@ class MainPage: UIViewController {
         navigationItem.leftBarButtonItem = menuButton
         menuButton.tintColor = .black
         
-        [saleCollectionView, saleSegment, typeCollectionView].forEach({view.addSubview($0)})
-        [saleCollectionView, saleSegment, typeCollectionView].forEach({$0.translatesAutoresizingMaskIntoConstraints = false})
+        [saleCollectionView, saleSegment, typeCollectionView, productCollectionView].forEach({view.addSubview($0)})
+        [saleCollectionView, saleSegment, typeCollectionView,productCollectionView].forEach({$0.translatesAutoresizingMaskIntoConstraints = false})
         
         NSLayoutConstraint.activate([
             saleCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -67,7 +80,12 @@ class MainPage: UIViewController {
             typeCollectionView.topAnchor.constraint(equalTo: saleSegment.bottomAnchor, constant: 10),
             typeCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             typeCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            typeCollectionView.heightAnchor.constraint(equalToConstant: 40)
+            typeCollectionView.heightAnchor.constraint(equalToConstant: 40),
+            
+            productCollectionView.topAnchor.constraint(equalTo: typeCollectionView.bottomAnchor, constant: 20),
+            productCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            productCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            productCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
         
@@ -83,6 +101,9 @@ class MainPage: UIViewController {
         
         typeCollectionView.dataSource = self
         typeCollectionView.delegate = self
+        
+        productCollectionView.dataSource = self
+        productCollectionView.delegate = self
     }
 
 }
@@ -95,7 +116,7 @@ extension MainPage: UICollectionViewDataSource, UICollectionViewDelegate, UIColl
         }else if collectionView == typeCollectionView {
             return categories.count
         }else{
-            return 10
+            return shoes.count
         }
     }
     
@@ -104,29 +125,30 @@ extension MainPage: UICollectionViewDataSource, UICollectionViewDelegate, UIColl
             let cell = saleCollectionView.dequeueReusableCell(withReuseIdentifier: SaleCell.identifier, for: indexPath) as! SaleCell
             cell.configure(with: "saleImage_\(indexPath.item)")
             return cell
-        } else {
+        } else if collectionView == typeCollectionView{
             let cell = typeCollectionView.dequeueReusableCell(withReuseIdentifier: CategoriesCollectionViewCell.identifier, for: indexPath) as! CategoriesCollectionViewCell
             cell.button.setTitle(categories[indexPath.item], for: .normal)
             cell.button.isSelected = indexPath.item == selectedCategoryIndex
             cell.button.addTarget(self, action: #selector(categoryButtonTapped(_:)), for: .touchUpInside)
             return cell
+        } else {
+            let cell = productCollectionView.dequeueReusableCell(withReuseIdentifier: ProductCollectionViewCell.identifier, for: indexPath) as! ProductCollectionViewCell
+            cell.configure(name: shoes[indexPath.item])
+            cell.mainTitle.text = shoes[indexPath.item]
+            return cell
         }
     }
-    
-    @objc func categoryButtonTapped(_ sender: UIButton) {
-            guard let indexPath = typeCollectionView.indexPath(for: sender.superview!.superview as! UICollectionViewCell) else { return }
-            selectedCategoryIndex = indexPath.item
-            typeCollectionView.reloadData()
-        }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == saleCollectionView {
             return CGSize(width: view.frame.width - 50, height: 150)
-        } else {
+        } else if collectionView == typeCollectionView {
             let label = UILabel()
             label.text = categories[indexPath.item]
             label.sizeToFit()
             return CGSize(width: label.frame.width + 20, height: 40)
+        } else {
+            return CGSize(width: 160, height: 237)
         }
     }
     
@@ -136,7 +158,17 @@ extension MainPage: UICollectionViewDataSource, UICollectionViewDelegate, UIColl
        }
     
     
+    
+    
+    
+    @objc func categoryButtonTapped(_ sender: UIButton) {
+            guard let indexPath = typeCollectionView.indexPath(for: sender.superview!.superview as! UICollectionViewCell) else { return }
+            selectedCategoryIndex = indexPath.item
+            typeCollectionView.reloadData()
+        }
 }
+
+
 
 extension UIButton {
     func setBackgroundColor(_ color: UIColor, for state: UIControl.State) {
