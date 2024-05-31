@@ -15,6 +15,7 @@
 		19A944212C0857A700A658AD /* MainPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A944202C0857A700A658AD /* MainPage.swift */; };
 		19A944232C08581300A658AD /* BasketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A944222C08581300A658AD /* BasketView.swift */; };
 		19A944252C08582900A658AD /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A944242C08582900A658AD /* ProfileView.swift */; };
+		19A944292C09B25200A658AD /* SaleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A944282C09B25200A658AD /* SaleCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		19A944202C0857A700A658AD /* MainPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPage.swift; sourceTree = "<group>"; };
 		19A944222C08581300A658AD /* BasketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketView.swift; sourceTree = "<group>"; };
 		19A944242C08582900A658AD /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		19A944282C09B25200A658AD /* SaleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				19A944222C08581300A658AD /* BasketView.swift */,
 				19A944242C08582900A658AD /* ProfileView.swift */,
 				19A944202C0857A700A658AD /* MainPage.swift */,
+				19A944282C09B25200A658AD /* SaleCell.swift */,
 				19A944152C07711300A658AD /* Assets.xcassets */,
 				19A944172C07711300A658AD /* LaunchScreen.storyboard */,
 				19A9441A2C07711300A658AD /* Info.plist */,
@@ -143,6 +146,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19A944292C09B25200A658AD /* SaleCell.swift in Sources */,
 				19A944252C08582900A658AD /* ProfileView.swift in Sources */,
 				19A944232C08581300A658AD /* BasketView.swift in Sources */,
 				19A944212C0857A700A658AD /* MainPage.swift in Sources */,
