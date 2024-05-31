@@ -94,7 +94,7 @@ class SaleCell: UICollectionViewCell {
     }
 
     func configure(with title: String) {
-        imageView.image = UIImage(named: "saleImage_1") // Replace with actual image
+        imageView.image = UIImage(named: "saleImage_0")
         titleLabel.text = "20% Discount"
         subtitleLabel.text = "on your first purchase"
     }
