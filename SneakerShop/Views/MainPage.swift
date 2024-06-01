@@ -9,7 +9,7 @@ import UIKit
 
 class MainPage: UIViewController {
     
-    let shoes: [String] = ["Air Max 97", "React Pestro", "KD13 EP", "Air Max 200 SE"]
+    let shoes: [String] = ["Air Max 97", "React Presto", "KD13 EP", "Air Max 200 SE", "Nike Motiva"]
     
     let productCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -159,14 +159,18 @@ extension MainPage: UICollectionViewDataSource, UICollectionViewDelegate, UIColl
             }
         }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = ProductDetail()
+        vc.productImage.image = UIImage(named: shoes[indexPath.item])
+        vc.title = shoes[indexPath.item]
+        vc.productPrice.text = "$ \(String(format: "%.2f", Double.random(in: 50...190)))"
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
            let pageIndex = round(scrollView.contentOffset.x / scrollView.frame.width)
            saleSegment.currentPage = Int(pageIndex)
        }
-    
-    
-    
-    
     
     @objc func categoryButtonTapped(_ sender: UIButton) {
             guard let indexPath = typeCollectionView.indexPath(for: sender.superview!.superview as! UICollectionViewCell) else { return }
