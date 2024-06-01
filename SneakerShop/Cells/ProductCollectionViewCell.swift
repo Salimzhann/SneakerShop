@@ -47,32 +47,29 @@ class ProductCollectionViewCell: UICollectionViewCell {
     }
     
     func setupUI() {
-        [mainTitle, priceTitle, image, backView].forEach({$0.translatesAutoresizingMaskIntoConstraints = false})
+        self.backgroundColor = .systemGray5
+        self.layer.cornerRadius = 18
+        [mainTitle, priceTitle, image, ].forEach({$0.translatesAutoresizingMaskIntoConstraints = false})
         self.addSubview(backView)
-        [mainTitle, priceTitle, image].forEach({backView.addSubview($0)})
+        [mainTitle, priceTitle, image].forEach({self.addSubview($0)})
         
         NSLayoutConstraint.activate([
-            backView.topAnchor.constraint(equalTo: self.topAnchor),
-            backView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5),
-            backView.heightAnchor.constraint(equalToConstant: 237),
-            backView.widthAnchor.constraint(equalToConstant: 160),
-            
-            image.topAnchor.constraint(equalTo: backView.topAnchor, constant: 2),
-            image.leadingAnchor.constraint(equalTo: backView.leadingAnchor,constant: -5),
-            image.widthAnchor.constraint(equalToConstant: 150),
-            image.heightAnchor.constraint(equalToConstant: 150),
+            image.topAnchor.constraint(equalTo: self.topAnchor, constant: 2),
+            image.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: -5),
+            image.widthAnchor.constraint(equalToConstant: 160),
+            image.heightAnchor.constraint(equalToConstant: 160),
             
             mainTitle.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 2),
-            mainTitle.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 10),
+            mainTitle.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             
             priceTitle.topAnchor.constraint(equalTo: mainTitle.bottomAnchor, constant: 2),
-            priceTitle.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 10)
+            priceTitle.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10)
         ])
     }
     
-    func configure(name: String) {
+    func configure(name: String, price: String) {
         image.image = UIImage(named: name)
         mainTitle.text = name
-        priceTitle.text = "$69.99"
+        priceTitle.text = "$\(price)"
     }
 }

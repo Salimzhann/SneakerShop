@@ -14,8 +14,6 @@ class MainPage: UIViewController {
     let productCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumInteritemSpacing = 10 // Space between items
-        layout.minimumLineSpacing = 10
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.showsVerticalScrollIndicator = false
         cv.register(ProductCollectionViewCell.self, forCellWithReuseIdentifier: ProductCollectionViewCell.identifier)
@@ -69,7 +67,7 @@ class MainPage: UIViewController {
         [saleCollectionView, saleSegment, typeCollectionView,productCollectionView].forEach({$0.translatesAutoresizingMaskIntoConstraints = false})
         
         NSLayoutConstraint.activate([
-            saleCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            saleCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             saleCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             saleCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             saleCollectionView.heightAnchor.constraint(equalToConstant: 150),
@@ -83,8 +81,8 @@ class MainPage: UIViewController {
             typeCollectionView.heightAnchor.constraint(equalToConstant: 40),
             
             productCollectionView.topAnchor.constraint(equalTo: typeCollectionView.bottomAnchor, constant: 20),
-            productCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            productCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            productCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            productCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             productCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
@@ -133,7 +131,7 @@ extension MainPage: UICollectionViewDataSource, UICollectionViewDelegate, UIColl
             return cell
         } else {
             let cell = productCollectionView.dequeueReusableCell(withReuseIdentifier: ProductCollectionViewCell.identifier, for: indexPath) as! ProductCollectionViewCell
-            cell.configure(name: shoes[indexPath.item])
+            cell.configure(name: shoes[indexPath.item], price: String(format: "%.2f",Float.random(in: 66...130)))
             cell.mainTitle.text = shoes[indexPath.item]
             return cell
         }
@@ -146,11 +144,20 @@ extension MainPage: UICollectionViewDataSource, UICollectionViewDelegate, UIColl
             let label = UILabel()
             label.text = categories[indexPath.item]
             label.sizeToFit()
-            return CGSize(width: label.frame.width + 20, height: 40)
+            return CGSize(width: label.frame.width + 40, height: 40)
         } else {
-            return CGSize(width: 160, height: 237)
+            return CGSize(width: 165, height: 237)
+            
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+            if collectionView == productCollectionView {
+                return UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12) // Adjust these values as needed
+            } else {
+                return UIEdgeInsets.zero
+            }
+        }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
            let pageIndex = round(scrollView.contentOffset.x / scrollView.frame.width)
