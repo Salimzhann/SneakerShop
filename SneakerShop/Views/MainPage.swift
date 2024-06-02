@@ -160,11 +160,13 @@ extension MainPage: UICollectionViewDataSource, UICollectionViewDelegate, UIColl
         }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = ProductDetail()
-        vc.productImage.image = UIImage(named: shoes[indexPath.item])
-        vc.title = shoes[indexPath.item]
-        vc.productPrice.text = "$ \(String(format: "%.2f", Double.random(in: 50...190)))"
-        navigationController?.pushViewController(vc, animated: true)
+        if collectionView == productCollectionView {
+            let vc = ProductDetail()
+            vc.productImage.image = UIImage(named: shoes[indexPath.item])
+            vc.title = shoes[indexPath.item]
+            vc.productPrice.text = "$ \(String(format: "%.2f", Double.random(in: 50...190)))"
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
