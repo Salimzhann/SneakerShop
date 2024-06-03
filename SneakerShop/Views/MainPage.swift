@@ -164,6 +164,7 @@ extension MainPage: UICollectionViewDataSource, UICollectionViewDelegate, UIColl
             let vc = ProductDetail()
             vc.productImage.image = UIImage(named: shoes[indexPath.item])
             vc.title = shoes[indexPath.item]
+            vc.productName = shoes[indexPath.item]
             vc.productPrice.text = "$ \(String(format: "%.2f", Double.random(in: 50...190)))"
             navigationController?.pushViewController(vc, animated: true)
         }

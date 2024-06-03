@@ -8,7 +8,7 @@
 import UIKit
 
 class ProductDetail: UIViewController {
-    
+     var productName = ""
     let BasketButton: UIButton = {
         let button = UIButton()
         button.setTitle("Add to basket", for: .normal)
@@ -16,6 +16,7 @@ class ProductDetail: UIViewController {
         button.layer.cornerRadius = 16
         button.layer.borderWidth = 2
         button.layer.borderColor = UIColor.black.cgColor
+        button.addTarget(self, action: #selector(basketHandler), for: .touchUpInside)
         return button
     }()
     let constImage: UIImageView = {
@@ -55,6 +56,8 @@ class ProductDetail: UIViewController {
         label.textColor = .black
         return label
     }()
+    
+    var sizeText = ""
     
     let sizeButtons:[UIButton] = {
         let button1 = UIButton()
@@ -140,27 +143,49 @@ class ProductDetail: UIViewController {
         for button in sizeButtons {
             button.addTarget(self, action: #selector(sizeIsSelected(_:)), for: .touchUpInside)
         }
-        
     }
     
     @objc func sizeIsSelected(_ sender: UIButton) {
         for button in sizeButtons {
-                   button.layer.borderColor = UIColor.lightGray.cgColor
-                   button.layer.borderWidth = 1
-                   button.setTitleColor(.black, for: .normal)
-               }
-               sender.layer.borderColor = UIColor.black.cgColor
-               sender.layer.borderWidth = 2
-           }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+            button.layer.borderColor = UIColor.lightGray.cgColor
+            button.layer.borderWidth = 1
+            button.setTitleColor(.black, for: .normal)
+        }
+        sender.layer.borderColor = UIColor.black.cgColor
+        sender.layer.borderWidth = 2
+        
+        sizeText = sender.titleLabel?.text ?? ""
     }
-    */
-
+    
+    @objc func basketHandler() {
+        guard sizeText.isEmpty == false else {
+            showAlert()
+            return
+        }
+        let basketVC = BasketView.shared
+        basketVC.productNameArray.append(productName)
+        basketVC.productSizeArray.append(sizeText)
+        basketVC.price.append(productPrice.text!)
+        basketVC.basketTableView.reloadData()
+        let defaults = UserDefaults.standard
+               defaults.set(BasketView.shared.productNameArray, forKey: "productNameArray")
+               defaults.set(BasketView.shared.productSizeArray, forKey: "productSizeArray")
+               defaults.set(BasketView.shared.price, forKey: "priceArray")
+               
+               // Ensure the data is actually added
+               print(BasketView.shared.productNameArray)
+               print(BasketView.shared.productSizeArray)
+               print(BasketView.shared.price)
+        
+    }
+    
+    func showAlert() {
+        let alertController = UIAlertController(title: "Error", message: "Size is not selected. Please select a size.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        
+        if let topController = UIApplication.shared.keyWindow?.rootViewController {
+            topController.present(alertController, animated: true, completion: nil)
+        }
+    }
 }
