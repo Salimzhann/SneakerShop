@@ -168,14 +168,10 @@ class ProductDetail: UIViewController {
         basketVC.price.append(productPrice.text!)
         basketVC.basketTableView.reloadData()
         let defaults = UserDefaults.standard
-               defaults.set(BasketView.shared.productNameArray, forKey: "productNameArray")
-               defaults.set(BasketView.shared.productSizeArray, forKey: "productSizeArray")
-               defaults.set(BasketView.shared.price, forKey: "priceArray")
-               
-               // Ensure the data is actually added
-               print(BasketView.shared.productNameArray)
-               print(BasketView.shared.productSizeArray)
-               print(BasketView.shared.price)
+        defaults.set(BasketView.shared.productNameArray, forKey: "productNameArray")
+        defaults.set(BasketView.shared.productSizeArray, forKey: "productSizeArray")
+        defaults.set(BasketView.shared.price, forKey: "priceArray")
+        navigationController?.popViewController(animated: true)
         
     }
     
